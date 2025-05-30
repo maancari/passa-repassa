@@ -1,0 +1,204 @@
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    margin: 0;
+    color: #333;
+    overflow: hidden; /* Evita scrollbars se os indicadores ficarem muito grandes */
+}
+
+/* Novo layout para a interface de gerenciamento para posicionar os indicadores */
+.manager-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    gap: 20px; /* Espaçamento entre os indicadores e o container principal */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+h1 {
+    color: #0056b3;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+/* Estilo para o botão principal Passa ou Repassa */
+.red-button {
+    background-color: #dc3545; /* Vermelho vibrante */
+    color: white;
+    border: none;
+    padding: 30px 40px;
+    font-size: 2.2em;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.red-button:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+.red-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.red-button:disabled {
+    background-color: #6c757d; /* Cinza quando desabilitado */
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #555;
+    min-height: 25px; /* Para evitar pulo de layout */
+}
+
+.status-info {
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #0056b3;
+}
+
+#game-status {
+    color: #dc3545;
+}
+
+
+/* Estilos para a interface de gerenciamento */
+.manager-section {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.manager-section h2 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.manager-buttons button,
+.test-button {
+    margin: 10px 5px;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.green-button {
+    background-color: #28a745; /* Verde */
+}
+.green-button:hover {
+    background-color: #218838;
+}
+
+.yellow-button {
+    background-color: #ffc107; /* Amarelo */
+    color: #333; /* Texto escuro para contraste */
+}
+.yellow-button:hover {
+    background-color: #e0a800;
+}
+
+.blue-button {
+    background-color: #007bff; /* Azul */
+}
+.blue-button:hover {
+    background-color: #0069d9;
+}
+
+.test-button {
+    background-color: #6c757d; /* Cinza para botões de teste */
+}
+.test-button:hover {
+    background-color: #5a6268;
+}
+
+#button-pressed-by,
+#button-global-status {
+    font-weight: bold;
+    color: #28a745;
+}
+#button-global-status.blocked {
+    color: #dc3545; /* Vermelho para bloqueado */
+}
+
+/* NOVOS ESTILOS PARA OS SINALIZADORES */
+.player-indicator {
+    width: 150px; /* Largura do sinalizador */
+    height: 150px; /* Altura do sinalizador */
+    border-radius: 50%; /* Torna-o circular */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* Tamanho do texto dentro do indicador (se houver) */
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.7); /* Cor do texto no indicador */
+}
+
+/* Cores dos sinalizadores */
+.player-indicator.gray {
+    background-color: #6c757d; /* Cinza inicial */
+}
+
+.player-indicator.green {
+    background-color: #28a745; /* Verde quando ativo */
+    box-shadow: 0 0 30px rgba(40, 167, 69, 0.8); /* Brilho verde */
+}
+
+.player-indicator.red {
+    background-color: #dc3545; /* Vermelho para indicar erro ou desabilitação */
+    box-shadow: 0 0 30px rgba(220, 53, 69, 0.8); /* Brilho vermelho */
+}
+
+/* Responsividade básica para telas menores */
+@media (max-width: 768px) {
+    .manager-layout {
+        flex-direction: column; /* Empilha os itens em telas menores */
+        padding: 20px;
+        gap: 20px;
+    }
+    .player-indicator {
+        width: 100px;
+        height: 100px;
+    }
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 20px;
+    }
+}

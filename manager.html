@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passa ou Repassa - Gerenciamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="manager-page"> <div class="manager-layout">
+        <div id="player1-indicator" class="player-indicator gray"></div>
+
+        <div class="container">
+            <h1>Gerenciar Jogo</h1>
+
+            <div class="manager-section">
+                <h2>Status Atual</h2>
+                <p>Botão Apertado por: <span id="button-pressed-by">Ninguém</span></p>
+                <p>Botão Global: <span id="button-global-status"></span></p>
+            </div>
+
+            <div class="manager-section">
+                <h2>Controle do Jogo</h2>
+                <button id="reset-game-button" class="green-button">Reiniciar Jogo</button>
+                <button id="block-all-buttons" class="yellow-button">Bloquear Botões</button>
+                <button id="unblock-all-buttons" class="blue-button">Desbloquear Botões</button>
+            </div>
+
+            <div class="manager-section">
+                <h2>Testar Botões (Apenas Gerenciador)</h2>
+                <button id="manager-player1-button" class="test-button">Simular Aperto J1</button>
+                <button id="manager-player2-button" class="test-button">Simular Aperto J2</button>
+            </div>
+        </div>
+
+        <div id="player2-indicator" class="player-indicator gray"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
