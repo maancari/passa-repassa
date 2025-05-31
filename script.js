@@ -1,57 +1,26 @@
+// Inclua a biblioteca cliente do Socket.IO (será carregada via script tag no HTML)
+// Isso é necessário porque o Socket.IO não é parte padrão do navegador
+// <script src="/socket.io/socket.io.js"></script>
+
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Variáveis de referência para as funções de atualização de UI ---
-    // Declaradas aqui para que saveGameState possa vê-las.
-    let updatePlayerUI;
-    let updateManagerUI;
+    // Conecta ao servidor Socket.IO
+    // Se o seu servidor estiver rodando em 'localhost:3000', não precisa de argumento
+    // Se estiver online, coloque a URL do seu servidor aqui (ex: 'https://seu-servidor.com')
+    const socket = io('https://passa-repassa-server.onrender.com'); // Conecta-se ao host/porta de onde a página foi servida
 
-    // --- Funções de Gerenciamento de Estado no localStorage ---
-
-    function initializeGameState() {
-        if (localStorage.getItem('gameState') === null) {
-            const initialState = {
-                buttonPressed: false,
-                pressedBy: null,
-                isBlocked: false
-            };
-            localStorage.setItem('gameState', JSON.stringify(initialState));
-            return initialState;
-        }
-        return JSON.parse(localStorage.getItem('gameState'));
-    }
-
-    function getGameState() {
-        return JSON.parse(localStorage.getItem('gameState'));
-    }
-
-    // Centraliza a lógica de salvar e disparar eventos/atualizações
-    function saveGameState(newState) {
-        const oldState = getGameState(); // Opcional, para debug ou lógicas mais complexas
-        localStorage.setItem('gameState', JSON.stringify(newState));
-
-        // Dispara um evento personalizado para outras janelas/abas escutarem
-        // Use 'true' para `bubbles` para que o evento possa ser escutado em níveis mais altos
-        window.dispatchEvent(new CustomEvent('gameStateUpdated', { detail: newState }));
-
-        // Chama a função de atualização da UI para a janela atual imediatamente
-        if (document.body.classList.contains('player-page') && typeof updatePlayerUI === 'function') {
-            updatePlayerUI();
-        } else if (document.body.classList.contains('manager-page') && typeof updateManagerUI === 'function') {
-            updateManagerUI();
-        }
-    }
+    let updatePlayerUI; // Será definida em setupPlayerInterface
+    let updateManagerUI; // Será definida em setupManagerInterface
 
     // --- Lógica para as interfaces dos jogadores (player1.html, player2.html) ---
     function setupPlayerInterface() {
         const playerButton = document.getElementById('player-button');
         const messageDisplay = document.getElementById('message');
         const gameStatusDisplay = document.getElementById('game-status');
-        const currentPlayer = playerButton.dataset.player;
+        const currentPlayer = playerButton.dataset.player; // 'player1' ou 'player2'
 
         document.body.classList.add('player-page');
 
-        updatePlayerUI = () => { // Atribuição à variável global
-            const gameState = getGameState(); // Garante que pegamos o estado mais recente
-
+        updatePlayerUI = (gameState) => { // Agora recebe o gameState como argumento
             playerButton.disabled = gameState.isBlocked || gameState.buttonPressed;
             playerButton.style.backgroundColor = (gameState.isBlocked || gameState.buttonPressed) ? '#6c757d' : '#dc3545';
 
@@ -75,27 +44,17 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         playerButton.addEventListener('click', () => {
-            const gameState = getGameState();
-            if (!gameState.isBlocked && !gameState.buttonPressed) {
-                const newState = {
-                    ...gameState,
-                    buttonPressed: true,
-                    pressedBy: currentPlayer
-                };
-                saveGameState(newState);
-            }
+            // Em vez de salvar no localStorage, EMITE PARA O SERVIDOR
+            socket.emit('playerButtonClick', { player: currentPlayer });
         });
 
-        // Escuta por mudanças no localStorage vindas de outras abas/janelas
-        // e também para o evento personalizado disparado pela própria aba ou por outras
-        window.addEventListener('gameStateUpdated', updatePlayerUI);
-        // O evento 'storage' é disparado APENAS quando o localStorage é modificado por OUTRA janela/aba.
-        // Ele não é disparado na janela que fez a modificação.
-        // É importante ter ele para garantir que outras abas se atualizem.
-        window.addEventListener('storage', updatePlayerUI);
+        // Ouve atualizações do estado do jogo vindas do servidor
+        socket.on('gameStateUpdate', (newGameState) => {
+            updatePlayerUI(newGameState);
+        });
 
-        // Chamar updatePlayerUI no carregamento da página para refletir o estado atual
-        updatePlayerUI();
+        // No primeiro carregamento, o servidor enviará o estado inicial
+        // updatePlayerUI(socket.gameState); // Não funciona assim, o evento 'gameStateUpdate' vai cuidar
     }
 
     // --- Lógica para a interface do gerenciador (manager.html) ---
@@ -113,9 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.classList.add('manager-page');
 
-        updateManagerUI = () => { // Atribuição à variável global
-            const gameState = getGameState(); // Garante que pegamos o estado mais recente
-
+        updateManagerUI = (gameState) => { // Agora recebe o gameState como argumento
             if (gameState.buttonPressed) {
                 buttonPressedByDisplay.textContent = gameState.pressedBy.toUpperCase();
                 buttonPressedByDisplay.style.color = '#007bff';
@@ -132,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 buttonGlobalStatusDisplay.classList.remove('blocked');
             }
 
-            // Lógica para os sinalizadores
             player1Indicator.classList.remove('green', 'red');
             player2Indicator.classList.remove('green', 'red');
             player1Indicator.classList.add('gray');
@@ -147,7 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     player2Indicator.classList.add('green');
                 }
             } else if (gameState.isBlocked) {
-                // Se o botão está bloqueado, ambos ficam vermelhos (opcional, mas visualmente claro)
                 player1Indicator.classList.remove('gray');
                 player2Indicator.classList.remove('gray');
                 player1Indicator.classList.add('red');
@@ -156,54 +111,37 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         resetGameButton.addEventListener('click', () => {
-            const newState = {
-                buttonPressed: false,
-                pressedBy: null,
-                isBlocked: false
-            };
-            saveGameState(newState); // saveGameState já chama updateManagerUI
+            socket.emit('resetGame'); // Emite para o servidor
         });
 
         blockAllButtons.addEventListener('click', () => {
-            const gameState = getGameState();
-            const newState = { ...gameState, isBlocked: true };
-            saveGameState(newState); // saveGameState já chama updateManagerUI
+            socket.emit('blockButtons'); // Emite para o servidor
         });
 
         unblockAllButtons.addEventListener('click', () => {
-            const gameState = getGameState();
-            const newState = { ...gameState, isBlocked: false };
-            saveGameState(newState); // saveGameState já chama updateManagerUI
+            socket.emit('unblockButtons'); // Emite para o servidor
         });
 
         managerPlayer1Button.addEventListener('click', () => {
-            const gameState = getGameState();
-            if (!gameState.isBlocked && !gameState.buttonPressed) {
-                const newState = { ...gameState, buttonPressed: true, pressedBy: 'player1' };
-                saveGameState(newState); // saveGameState já chama updateManagerUI
-            }
+            socket.emit('managerPlayerClick', { player: 'player1' }); // Emite para o servidor
         });
 
         managerPlayer2Button.addEventListener('click', () => {
-            const gameState = getGameState();
-            if (!gameState.isBlocked && !gameState.buttonPressed) {
-                const newState = { ...gameState, buttonPressed: true, pressedBy: 'player2' };
-                saveGameState(newState); // saveGameState já chama updateManagerUI
-            }
+            socket.emit('managerPlayerClick', { player: 'player2' }); // Emite para o servidor
         });
 
-        // Escuta por mudanças no localStorage vindas de outras abas/janelas
-        // e também para o evento personalizado disparado pela própria aba ou por outras
-        window.addEventListener('gameStateUpdated', updateManagerUI);
-        window.addEventListener('storage', updateManagerUI);
+        // Ouve atualizações do estado do jogo vindas do servidor
+        socket.on('gameStateUpdate', (newGameState) => {
+            updateManagerUI(newGameState);
+        });
 
-        updateManagerUI(); // Inicializa a UI
+        // No primeiro carregamento, o servidor enviará o estado inicial
+        // updateManagerUI(socket.gameState); // Não funciona assim, o evento 'gameStateUpdate' vai cuidar
     }
 
     // --- Lógica de Inicialização (detecta qual página está carregando) ---
 
-    // Chame initializeGameState antes de qualquer getGameState para garantir que exista
-    initializeGameState();
+    // Remover initializeGameState() pois o estado é agora no servidor
 
     const currentPath = window.location.pathname;
     if (currentPath.includes('player1.html') || currentPath.includes('player2.html')) {
