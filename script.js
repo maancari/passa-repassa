@@ -117,6 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         resetGameButton.addEventListener('click', () => {
             socket.emit('resetGame'); // Emite para o servidor
+			player1Indicator.textContent = "";
+			player2Indicator.textContent = "";
         });
 
         blockAllButtons.addEventListener('click', () => {
