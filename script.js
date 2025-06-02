@@ -123,7 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         blockAllButtons.addEventListener('click', () => {
             socket.emit('blockButtons'); // Emite para o servidor
-        });
+			player1Indicator.classList.add('gray');
+            player2Indicator.classList.add('gray');
+			player1Indicator.textContent = "";
+			player2Indicator.textContent = "";
+		});
 
         unblockAllButtons.addEventListener('click', () => {
             socket.emit('unblockButtons'); // Emite para o servidor
