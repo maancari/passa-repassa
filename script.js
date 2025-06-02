@@ -93,6 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
             player2Indicator.classList.remove('green', 'red');
             player1Indicator.classList.add('gray');
             player2Indicator.classList.add('gray');
+			player1Indicator.textContent = "";
+			player2Indicator.textContent = "";
 
             if (gameState.buttonPressed) {
                 if (gameState.pressedBy === 'player1') {
@@ -110,8 +112,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 player2Indicator.classList.remove('gray');
                 player1Indicator.classList.add('red');
                 player2Indicator.classList.add('red');
-				player1Indicator.textContent = "";
-				player2Indicator.textContent = "";
             }
         };
 
