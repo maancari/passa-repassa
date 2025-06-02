@@ -98,15 +98,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (gameState.pressedBy === 'player1') {
                     player1Indicator.classList.remove('gray');
                     player1Indicator.classList.add('green');
+					player1Indicator.textContent = gameState.pressedBy.toUpperCase();
+					
                 } else if (gameState.pressedBy === 'player2') {
                     player2Indicator.classList.remove('gray');
                     player2Indicator.classList.add('green');
+					player2Indicator.textContent = gameState.pressedBy.toUpperCase();
                 }
             } else if (gameState.isBlocked) {
                 player1Indicator.classList.remove('gray');
                 player2Indicator.classList.remove('gray');
                 player1Indicator.classList.add('red');
                 player2Indicator.classList.add('red');
+				player1Indicator.textContent = "";
+				player2Indicator.textContent = "";
             }
         };
 
