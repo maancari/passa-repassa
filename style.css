@@ -120,6 +120,13 @@ h1 {
 
 .green-button {
     background-color: #28a745; /* Verde */
+    color: #fff;
+    border-radius: 5px;
+    height: 30px;
+    margin: 0px 10px;
+    font-weight: bolder;
+    border-width: 0px;
+    padding: 0px 14px;
 }
 .green-button:hover {
     background-color: #218838;
@@ -127,7 +134,13 @@ h1 {
 
 .yellow-button {
     background-color: #ffc107; /* Amarelo */
-    color: #333; /* Texto escuro para contraste */
+    color: #fff;
+    border-radius: 5px;
+    height: 30px;
+    margin: 0px 10px;
+    font-weight: bolder;
+    border-width: 0px;
+    padding: 0px 14px;
 }
 .yellow-button:hover {
     background-color: #e0a800;
@@ -135,6 +148,13 @@ h1 {
 
 .blue-button {
     background-color: #007bff; /* Azul */
+    color: #fff;
+    border-radius: 5px;
+    height: 30px;
+    margin: 0px 10px;
+    font-weight: bolder;
+    border-width: 0px;
+    padding: 0px 14px;
 }
 .blue-button:hover {
     background-color: #0069d9;
