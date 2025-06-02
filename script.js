@@ -150,3 +150,57 @@ document.addEventListener('DOMContentLoaded', () => {
         setupManagerInterface();
     }
 });
+
+/*************************** COM FULLSCREEN ******************************************/
+
+const enterFullscreenButton = document.getElementById('enterFullscreenButton');
+const fullscreenPrompt = document.getElementById('fullscreen-prompt');
+const playerContent = document.getElementById('playerContent');
+
+// Garante que o playerContent esteja oculto no carregamento
+// (Isso complementa o display: none no CSS, caso algo externo o sobreponha)
+playerContent.style.display = 'none';
+// Garante que o prompt esteja visível no carregamento
+fullscreenPrompt.style.display = 'flex'; // Use flex para centralizar o prompt
+
+enterFullscreenButton.addEventListener('click', () => {
+	const elem = document.documentElement; // Obtém o elemento raiz HTML
+
+	// Solicita o modo tela cheia
+	if (elem.requestFullscreen) {
+		elem.requestFullscreen();
+	} else if (elem.mozRequestFullScreen) { /* Firefox */
+		elem.mozRequestFullScreen();
+	} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		elem.webkitRequestFullScreen(); // Note: webkitRequestFullScreen (capital S)
+	} else if (elem.msRequestFullscreen) { /* IE/Edge */
+		elem.msRequestFullscreen();
+	}
+
+	// Esconde o prompt e mostra o conteúdo do jogador
+	fullscreenPrompt.style.display = 'none';
+	playerContent.style.display = 'flex'; // Torna o playerContent flex para centralizar o conteúdo
+
+	// Opcional: Se seu script.js inicializar algo ou tiver funções que dependem do DOM estar visível,
+	// você pode chamar uma função aqui. Por exemplo, se script.js tem uma função initGame():
+	// if (typeof initGame === 'function') {
+	//     initGame();
+	// }
+});
+
+// Opcional: Lidar com a saída do modo tela cheia (por exemplo, ao pressionar ESC)
+document.addEventListener('fullscreenchange', exitHandler);
+document.addEventListener('webkitfullscreenchange', exitHandler);
+document.addEventListener('mozfullscreenchange', exitHandler);
+document.addEventListener('MSFullscreenChange', exitHandler);
+
+function exitHandler() {
+	if (!document.fullscreenElement &&    // Padrão
+		!document.webkitIsFullScreen &&   // Chrome, Safari e Opera
+		!document.mozFullScreen &&        // Firefox
+		!document.msFullscreenElement) {  // IE/Edge
+		// Se sair da tela cheia, mostra o prompt novamente
+		fullscreenPrompt.style.display = 'flex'; // Volta para flex para centralizar
+		playerContent.style.display = 'none';
+	}
+}

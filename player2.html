@@ -3,19 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Passa ou Repassa - Jogador 2</title>
+    <title>Passa ou Repassa - Player 2</title>
     <link rel="stylesheet" href="style.css">
-	<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
 </head>
 <body class="player-page">
-    <div class="container">
-        <h1>Jogador 2</h1>
-        <button id="player-button" class="red-button" data-player="player2">
-            APERTE PARA PASSAR OU REPASSAR!
-        </button>
-        <p id="message"></p>
-        <p class="status-info">Status do Jogo: <span id="game-status">Aguardando...</span></p>
+
+    <div id="fullscreen-prompt">
+        <h1>Bem-vindo, Player 2!</h1>
+        <p>Por favor, clique no botão abaixo para entrar no jogo.</p>
+        <button id="enterFullscreenButton">INICIAR</button>
     </div>
-	<script src="script.js"></script>
+
+    <div id="playerContent">
+        <div class="container">
+            <h1>Player 2</h1>
+            <button id="player-button" class="red-button" data-player="player2">
+                APERTE PARA RESPONDER!
+            </button>
+            <p id="message"></p>
+            <p class="status-info">Status do Jogo: <span id="game-status">Aguardando...</span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
