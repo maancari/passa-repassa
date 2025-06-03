@@ -189,7 +189,7 @@ h1 {
     font-size: 1.5em; /* Tamanho do texto dentro do indicador (se houver) */
     font-weight: bold;
     color: rgba(255, 255, 255, 0.7); /* Cor do texto no indicador */
-	margin: 0px 10px
+	margin: 0px 10px;
 }
 
 /* Cores dos sinalizadores */
