@@ -179,8 +179,8 @@ h1 {
 /* NOVOS ESTILOS PARA OS SINALIZADORES */
 .player-indicator {
     width: 150px; /* Largura do sinalizador */
-    height: 150px; /* Altura do sinalizador */
-    border-radius: 50%; /* Torna-o circular */
+    /* height: 150px; Altura do sinalizador */
+    border-radius: 5px; /* Torna-o circular */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     display: flex;
@@ -189,6 +189,7 @@ h1 {
     font-size: 1.5em; /* Tamanho do texto dentro do indicador (se houver) */
     font-weight: bold;
     color: rgba(255, 255, 255, 0.7); /* Cor do texto no indicador */
+	margin: 0px 10px
 }
 
 /* Cores dos sinalizadores */
