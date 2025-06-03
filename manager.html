@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="style.css">
 	<script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz" crossorigin="anonymous"></script>
 </head>
-<body class="manager-page"> <div class="manager-layout">
+<body class="manager-page"> 
+    <div id="fullscreen-prompt">
+        <h1>Bem-vindo, Moderador!</h1>
+        <p>Clique no botão abaixo para entrar no Painel de Controle.</p>
+        <button id="enterFullscreenButton">ENTRAR</button>
+    </div>
+	<div id="mainContent">
         <div id="player1-indicator" class="player-indicator gray"></div>
         <div class="container">
             <h1>Painel de controle</h1>

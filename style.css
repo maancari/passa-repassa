@@ -12,7 +12,7 @@ body {
 }
 
 /* Novo layout para a interface de gerenciamento para posicionar os indicadores */
-.manager-layout {
+#managerContent {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,7 +208,7 @@ h1 {
 
 /* Responsividade básica para telas menores */
 @media (max-width: 768px) {
-    .manager-layout {
+    #managerContent {
         flex-direction: column; /* Empilha os itens em telas menores */
         padding: 20px;
         gap: 20px;
@@ -310,7 +310,7 @@ h1 {
 
 /* Responsividade básica para telas menores */
 @media (max-width: 768px) {
-    .manager-layout {
+    #managerContent {
         flex-direction: column; /* Empilha os itens em telas menores */
         padding: 20px;
         gap: 20px;

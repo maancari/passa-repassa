@@ -164,11 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const enterFullscreenButton = document.getElementById('enterFullscreenButton');
 const fullscreenPrompt = document.getElementById('fullscreen-prompt');
-const playerContent = document.getElementById('playerContent');
+const mainContent = document.getElementById('mainContent');
 
-// Garante que o playerContent esteja oculto no carregamento
+// Garante que o mainContent esteja oculto no carregamento
 // (Isso complementa o display: none no CSS, caso algo externo o sobreponha)
-playerContent.style.display = 'none';
+mainContent.style.display = 'none';
 // Garante que o prompt esteja visível no carregamento
 fullscreenPrompt.style.display = 'flex'; // Use flex para centralizar o prompt
 
@@ -188,7 +188,7 @@ enterFullscreenButton.addEventListener('click', () => {
 
 	// Esconde o prompt e mostra o conteúdo do jogador
 	fullscreenPrompt.style.display = 'none';
-	playerContent.style.display = 'flex'; // Torna o playerContent flex para centralizar o conteúdo
+	mainContent.style.display = 'flex'; // Torna o mainContent flex para centralizar o conteúdo
 
 	// Opcional: Se seu script.js inicializar algo ou tiver funções que dependem do DOM estar visível,
 	// você pode chamar uma função aqui. Por exemplo, se script.js tem uma função initGame():
@@ -210,6 +210,6 @@ function exitHandler() {
 		!document.msFullscreenElement) {  // IE/Edge
 		// Se sair da tela cheia, mostra o prompt novamente
 		fullscreenPrompt.style.display = 'flex'; // Volta para flex para centralizar
-		playerContent.style.display = 'none';
+		mainContent.style.display = 'none';
 	}
 }
